@@ -1,0 +1,6 @@
+groq
+pymongo
+python-dotenv
+fastapi
+uvicorn
+yfinance
