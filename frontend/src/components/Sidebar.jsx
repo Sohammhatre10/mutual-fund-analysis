@@ -1,31 +1,48 @@
 import React from "react";
 
-export default function Sidebar({ user, history, onSelectTurn }) {
+export default function Sidebar() {
+  const chats = [
+    "Sentence correction",
+    "Project comparison",
+    "Personal collaborator",
+    "Shirt color suggestions",
+    "PPT guidance",
+  ];
+
   return (
-    <aside className="w-80 bg-[#171c2a] border-r border-[#2ef88c] h-screen flex flex-col glass shadow-2xl">
-      <div className="px-6 py-4 border-b border-[#2ef88c]/25 flex justify-between items-center">
-        <div className="text-2xl font-black tracking-wide bg-gradient-to-r from-[#2ef88c] to-[#168eec] bg-clip-text text-transparent py-1 px-2 [text-shadow:_0_2px_16px_#2ef88c55]">Fund Analyser</div>
-        <button className="text-[#168eec] bg-[#1c2134] p-2 rounded-xl font-black hover:bg-[#282e47] transition shadow">+ New chat</button>
+    <aside className="w-72 bg-white border-r h-screen flex flex-col">
+      <div className="p-4 border-b">
+        <div className="text-xl font-semibold">Fund Analyser</div>
       </div>
-      <nav className="flex-1 overflow-y-auto px-4 py-6 flex flex-col gap-2">
-        {(history || []).map((turn, i) => (
-          <button key={i}
-                  className="flex items-center px-4 py-3 shadow rounded-lg bg-[#23284d] hover:bg-[#282e47] border border-[#2ef88c]/15 text-left text-white font-semibold transition-all cursor-pointer group"
-                  onClick={() => onSelectTurn && onSelectTurn(turn)}
-                  title={turn[0]["0"]}
-          >
-            <span className="truncate text-[#2ef88c] font-extrabold mr-2">⏳</span>
-            <span className="truncate">{turn[0]["0"].slice(0, 36) + (turn[0]["0"].length > 36 ? '...' : '')}</span>
-          </button>
-        ))}
+
+      <div className="p-4">
+        <button className="w-full text-left px-3 py-2 bg-gray-100 rounded-md font-medium hover:bg-gray-200">
+          + New chat
+        </button>
+      </div>
+
+      <nav className="p-2 flex-1 overflow-auto">
+        <ul className="space-y-2">
+          {chats.map((c, i) => (
+            <li
+              key={i}
+              className="px-3 py-2 rounded-md hover:bg-gray-100 cursor-pointer text-sm"
+            >
+              {c}
+            </li>
+          ))}
+        </ul>
       </nav>
-      <div className="px-6 py-5 border-t border-[#2ef88c]/25 bg-[#131724] flex items-center gap-4">
-        <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-[#2ef88c] to-[#168eec] flex items-center justify-center text-2xl font-extrabold text-[#131724] drop-shadow-2xl">
-          {user?.[0]?.toUpperCase() || "?"}
-        </div>
-        <div>
-          <div className="text-lg font-bold">{user}</div>
-          <div className="text-xs text-[#2ef88c] mt-1">Active</div>
+
+      <div className="p-4 border-t">
+        <div className="flex items-center gap-3">
+          <div className="w-9 h-9 rounded-full bg-indigo-600 text-white flex items-center justify-center font-bold">
+            J
+          </div>
+          <div>
+            <div className="text-sm font-medium">User</div>
+            <div className="text-xs text-gray-500">Free</div>
+          </div>
         </div>
       </div>
     </aside>
