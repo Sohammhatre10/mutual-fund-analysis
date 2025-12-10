@@ -15,10 +15,23 @@ load_dotenv()
 
 app = fastapi.FastAPI()
 
-# CORS middleware for local frontend development
+# CORS middleware - supports both local development and production (Vercel)
+FRONTEND_URL = os.getenv("FRONTEND_URL", "http://localhost:5173")
+# Build list of allowed origins
+allowed_origins = [
+    "http://localhost:5173",
+    "http://127.0.0.1:5173",
+    FRONTEND_URL,
+]
+# Add https version if http is provided
+if FRONTEND_URL.startswith("http://"):
+    allowed_origins.append(FRONTEND_URL.replace("http://", "https://"))
+elif FRONTEND_URL.startswith("https://"):
+    allowed_origins.append(FRONTEND_URL.replace("https://", "http://"))
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173", "http://127.0.0.1:5173", "*"],
+    allow_origins=allowed_origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
