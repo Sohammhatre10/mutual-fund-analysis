@@ -18,10 +18,10 @@ export async function getUserHistory(user) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
     const data = await response.json();
-    return data;
+    return data; // Should be { user: "...", history: [...] }
   } catch (error) {
     console.error("Error fetching user history:", error);
-    return [];
+    return { user: user, history: [] }; // Return object shape, not array
   }
 }
 
