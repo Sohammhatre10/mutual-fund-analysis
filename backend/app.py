@@ -16,25 +16,35 @@ load_dotenv()
 app = fastapi.FastAPI()
 
 # CORS middleware - supports both local development and production (Vercel)
-FRONTEND_URL = os.getenv("FRONTEND_URL", "http://localhost:5173")
-# Build list of allowed origins
+FRONTEND_URL = os.getenv("FRONTEND_URL", "http://localhost:5173").rstrip('/')
+VERCEL_URL = "https://mutual-fund-analysis-hgxp.vercel.app"
+
+# Build list of allowed origins - be explicit
 allowed_origins = [
     "http://localhost:5173",
     "http://127.0.0.1:5173",
-    FRONTEND_URL,
+    "https://mutual-fund-analysis-hgxp.vercel.app",
+    "https://mutual-fund-analysis-hgxp.vercel.app/",  # With trailing slash
 ]
-# Add https version if http is provided
-if FRONTEND_URL.startswith("http://"):
-    allowed_origins.append(FRONTEND_URL.replace("http://", "https://"))
-elif FRONTEND_URL.startswith("https://"):
-    allowed_origins.append(FRONTEND_URL.replace("https://", "http://"))
+
+# Add FRONTEND_URL if it's different and valid
+if FRONTEND_URL and FRONTEND_URL not in allowed_origins:
+    allowed_origins.append(FRONTEND_URL)
+    # Also add without trailing slash if it had one
+    if FRONTEND_URL.endswith('/'):
+        allowed_origins.append(FRONTEND_URL.rstrip('/'))
+
+# Remove duplicates and print for debugging
+allowed_origins = list(set([origin.rstrip('/') for origin in allowed_origins if origin]))
+print(f"🔒 CORS allowed origins: {allowed_origins}")
 
 app.add_middleware(
     CORSMiddleware,
     allow_origins=allowed_origins,
     allow_credentials=True,
-    allow_methods=["*"],
+    allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allow_headers=["*"],
+    expose_headers=["*"],
 )
 
 # Initialize Groq client
@@ -75,6 +85,17 @@ def update_user_history(user: str, user_msg: str, bot_resp: dict):
             {"user": user},
             {"$set": {"history": history}}
         )
+
+@app.get("/")
+async def root():
+    return {
+        "message": "Fund Analyser API",
+        "cors_origins": allowed_origins,
+        "endpoints": {
+            "user_history": "/user_history/?user=<username>",
+            "search_stock": "/search_stock/?user=<username>&query=<query>"
+        }
+    }
 
 @app.get("/user_history/")
 async def get_user_history(user: str):
