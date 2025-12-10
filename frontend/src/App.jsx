@@ -25,11 +25,19 @@ export default function App() {
   // Fetch chat history for sidebar on login/user change
   useEffect(() => {
     if (!user) return;
-        setLoading(true);
-    getUserHistory(user).then(res => {
-      setSidebarHistory(res.history || []);
+    setLoading(true);
+    getUserHistory(user)
+      .then(res => {
+        // Handle both object response and array fallback
+        const history = res?.history || (Array.isArray(res) ? res : []);
+        setSidebarHistory(history);
         setLoading(false);
-    });
+      })
+      .catch(error => {
+        console.error("Failed to load user history:", error);
+        setSidebarHistory([]);
+        setLoading(false); // Always set loading to false, even on error
+      });
   }, [user]);
 
   const addMessage = async (role, text) => {
