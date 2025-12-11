@@ -5,6 +5,7 @@ import { componentTagger } from "lovable-tagger";
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
+  envDir: "../", // Look for .env files in the parent directory (workspace root)
   server: {
     host: "::",
     port: 5173,

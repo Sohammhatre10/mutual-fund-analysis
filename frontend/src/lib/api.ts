@@ -1,4 +1,4 @@
-const BASE_URL = "https://mutual-fund-analysis-dwa6.onrender.com";
+const BASE_URL = import.meta.env.VITE_API_URL;
 
 export interface Message {
   id: number;
