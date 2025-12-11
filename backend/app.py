@@ -137,14 +137,14 @@ async def search_stock(user: str, query: str):
     ticker = get_ticker_from_groq(query)
     if ticker:
         mongo_data = search_mongodb_for_ticker(ticker)
+        yfinance_data = fetch_yfinance_data(ticker)
         if mongo_data:
             mongo_data.pop('_id', None)
-            yfinance_data = fetch_yfinance_data(ticker)
             bot_response = {"ticker": ticker, "mongo_data": mongo_data, "yfinance_data": yfinance_data}
             update_user_history(user, query, bot_response)
             return bot_response
         else:
-            bot_response = {"ticker": ticker, "message": f"No data found for {ticker} in MongoDB."}
+            bot_response = {"ticker": ticker, "message": f"No data found for {ticker} in MongoDB.", "yfinance_data": yfinance_data}
             update_user_history(user, query, bot_response)
             return bot_response
     else:
