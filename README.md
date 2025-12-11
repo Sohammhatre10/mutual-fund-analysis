@@ -1,132 +1,169 @@
-Mutual Fund Analysis AI
+# Mutual Fund Analysis AI
 
-AI-driven Mutual Fund Analytics Platform
-React Frontend | Python FastAPI Backend | Together AI (Llama-3) | MongoDB | Kaggle Dataset
+AI-Driven Mutual Fund Analytics Platform
+**Tech Stack:** React • FastAPI • Together AI (Llama-3) • MongoDB • Kaggle Dataset
 
-Overview
+## Overview
 
-Mutual fund data is often difficult for first-time investors to interpret due to scattered information, technical ratios, and inconsistent reporting formats. This project provides a unified interface that allows users to explore, compare, and understand mutual funds through structured analytics and AI-generated insights.
-The system uses real datasets sourced from Kaggle, a FastAPI backend for data processing, a React-based UI for interaction, and Llama-3 (via Together API) for intelligent summarisation, recommendations, and plain-language explanations.
+Understanding mutual funds can be challenging for new investors due to scattered information, complex ratios, and inconsistent reporting formats. This project brings all key insights into a unified interface, enabling users to explore, compare, and interpret mutual funds through structured analytics and AI-generated explanations.
 
-Key Features
+The system uses publicly available datasets sourced from Kaggle, a FastAPI backend for data processing, a React frontend for interaction, and Llama-3 via the Together API to generate clear summaries, risk insights, and comparisons.
 
-Clean React frontend for fund search, comparison, and insight generation
+---
 
-Python FastAPI backend for analytics, preprocessing, and API routing
+## Key Features
 
-AI agent powered by Together API (Llama-3 free tier) for explanation and risk assessment
+* **Modern React UI** for fund search, comparison, and insight generation
+* **FastAPI backend** for data processing, analytics, and routing
+* **AI-powered interpretation** using Together API (Llama-3 free tier)
+* **Mutual fund dataset imported from Kaggle** and stored in MongoDB
+* Endpoints for:
 
-Mutual fund datasets imported from Kaggle and stored in MongoDB
+  * Fund retrieval
+  * Trend and performance analysis
+  * AI-assisted insights
+* **Persistent storage** for portfolios, interactions, and user selections
 
-Endpoints for fund metrics, trend analysis, and AI-assisted interpretation
+---
 
-Persistent database layer for portfolio storage and user interactions
+## Architecture
 
-Architecture
+### Frontend (React)
 
-Frontend (React)
+* Displays mutual fund details, dashboards, and AI explanations
+* Sends user inputs and fund selections to FastAPI
+* Provides comparison views and analysis results
 
-Displays fund information, comparison dashboards, and AI-generated responses
+### Backend (FastAPI + Python)
 
-Sends user queries and fund selections to FastAPI
+* Processes and cleans Kaggle dataset
+* Computes key metrics such as:
 
-Backend (FastAPI + Python)
+  * Returns
+  * Volatility
+  * Risk ratios
+  * Rolling averages
+* Integrates with Together API for Llama-3 insights
+* Exposes REST APIs for frontend usage
 
-Imports and cleans Kaggle mutual fund datasets
+### Database (MongoDB)
 
-Computes performance metrics (returns, volatility, risk ratios, rolling averages)
+* Stores cleaned mutual fund entries
+* Stores user interactions and saved portfolios
 
-Integrates with Together API for Llama-3-based insights
+### AI Layer (Together API – Llama-3)
 
-Provides REST APIs for the frontend
+* Generates:
 
-Database (MongoDB)
+  * Plain-language explanations
+  * Risk summaries
+  * Comparative insights
+  * Overall fund interpretations
+* AI is used only for explanation. All numeric analytics are computed independently in Python.
 
-Stores cleaned dataset entries
+---
 
-Stores user queries, interaction logs, preference profiles (if required)
+## Dataset
 
-AI Layer (Together API)
+A publicly available mutual fund dataset from Kaggle is used. Examples:
 
-Generates explanations, risk summaries, comparison insights, and investment perspectives
+* “Indian mutual funds dataset”
+* “Mutual fund NAV history”
+* “Mutual fund performance dataset”
 
-Ensures outputs are non-deterministic, transparent, and tuned for clarity
+The dataset is cleaned using Python scripts and imported into MongoDB for efficient queries and metric computations.
 
-Dataset
+---
 
-A publicly available mutual fund dataset from Kaggle is used.
-Example search terms:
+## API Endpoints
 
-“Indian mutual funds dataset”
+### **GET /funds**
 
-“Mutual fund NAV history”
+Retrieve all mutual fund entries.
 
-“Mutual fund performance dataset”
+### **GET /funds/{id}**
 
-After download, the dataset is cleaned and imported into MongoDB for efficient querying.
+Retrieve a specific fund and its detailed metrics.
 
-API Endpoints
+### **POST /analyze**
 
-GET /funds – Retrieve all mutual funds
-GET /funds/{id} – Retrieve one fund and its metrics
-POST /analyze – Compute analytics for selected funds
-POST /ai/insight – Generate AI-driven explanations via Together API
-POST /portfolio/save – Store user selections in MongoDB
+Compute analytics for one or more selected funds.
 
-Setup Instructions
-Backend
+### **POST /ai/insight**
 
-Clone the repository
+Generate AI-based explanations or comparative insights using Llama-3.
 
-Install dependencies
+### **POST /portfolio/save**
 
+Save a portfolio or user selections into MongoDB.
+
+---
+
+## Setup Instructions
+
+### Backend
+
+```bash
 pip install -r requirements.txt
-
-Add Together API key to environment variables
-
-Run FastAPI
-
 uvicorn main:app --reload
+```
 
-Frontend
+Make sure to:
 
-Navigate to frontend directory
+* Clone the repository
+* Add your Together API Key to environment variables
+* Configure MongoDB connection in `.env`
 
-Install dependencies
+### Frontend
 
+```bash
 npm install
-
-Start development server
-
 npm run dev
+```
 
-Database
+Run the React development server from the `frontend` directory.
 
-Install MongoDB locally or use MongoDB Atlas
+### Database
 
-Import Kaggle data using a Python script or MongoDB Compass
+* Install MongoDB locally **or** use MongoDB Atlas
+* Import the Kaggle dataset using a Python script or MongoDB Compass
+* Add your database URI to the backend `.env` file
 
-Ensure .env contains database URI
+---
 
-AI Usage Disclosure
+## AI Usage Disclosure
 
-Llama-3 via Together API is used for:
+Llama-3 through the Together API is used only for:
 
-Text summarisation
+* Summaries
+* Risk analysis
+* Comparative insights
+* Natural-language interpretation
 
-Risk explanation
+The platform does not generate financial advice. All numerical calculations are performed directly in Python.
 
-Comparative insights
+---
 
-Natural-language interpretation of fund metrics
+## Project Status
 
-All analytic calculations are performed independently in Python; AI is used only for explanation, not for financial advice.
+The MVP includes:
 
-Project Status
+* Dataset ingestion
+* Core analytics
+* MongoDB integration
+* AI-generated explanatory insights
+* Fully functional frontend
 
-MVP includes dataset ingestion, basic analytics, AI-generated summaries, and a functioning UI.
-Next steps include portfolio simulation, advanced risk modeling, and user account integration.
+Planned enhancements:
 
-License
+* Portfolio simulation
+* Advanced risk modeling
+* User accounts and personalization
 
-This project is released for educational and ideathon purposes only. It does not provide financial advice.
+---
+
+## License
+
+This project is intended for educational and ideathon purposes. It should not be used as financial advice.
+✔ A folder structure diagram
+✔ API documentation in Swagger/OpenAPI format
